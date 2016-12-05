@@ -23,13 +23,13 @@
 - name: Check presence of photo
   stat: path=/tmp/test.jpg
   register: stat_result
-  
+
 - fail: msg="Camera didn't write out file /tmp/test.jpg."
   when: stat_result.stat.exists == False
-  
+
 # Capture video, dump out any output and errors and check video exists
 - name: Take a 5 second video
-  command: raspivid -t 5000 -o /tmp/video.h264 
+  command: raspivid -t 5000 -o /tmp/video.h264
   register: raspi_camera_debug
 
 - debug: msg="{{ raspi_camera_debug.stdout }}"
@@ -38,11 +38,11 @@
 - name: Check presence of video
   stat: path=/tmp/video.h264
   register: stat_result
-  
+
 - fail: msg="Camera didn't write out /tmp/video.h264."
   when: stat_result.stat.exists == False
-  
+
 # install python picamera library
 # The 1.12 version results in a black screen
 - name: Install picamera version 1.10
-  pip: name="picamera[array]" version=1.10
+  pip: name="picamera[array]" version={{ python_picamera_version }}
