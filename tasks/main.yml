@@ -8,9 +8,17 @@
 
 - name: camera - set state
   pi_boot_config: config_vals=start_x={{raspi_config_enable_camera|int}}
-  notify:
+
+# Force the pi config and reboot
+-  debug: msg="Config Reload and Reboot"
+   notify:
     - apply raspi-config
     - reboot
+    - wait for reboot
+   changed_when: true
+
+# Force it to run these ^ handlers now, rather than at the end.
+- meta: flush_handlers
 
 # Take a photo, dump out any output and errors and check photo exists
 - name: Take a photo
