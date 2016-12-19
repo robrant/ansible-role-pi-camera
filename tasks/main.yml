@@ -44,5 +44,8 @@
 
 # install python picamera library
 # The 1.12 version results in a black screen
+- name: Install pip
+  apt: name=python-pip state=latest
+
 - name: Install picamera version 1.10
   pip: name="picamera[array]" version={{ python_picamera_version }}
